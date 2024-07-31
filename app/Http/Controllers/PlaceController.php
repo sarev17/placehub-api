@@ -45,7 +45,12 @@ class PlaceController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $place = Place::find($id);
+
+        if(!$place){
+            return ApiResponseService::error('Place not found',[],404);
+        }
+        return ApiResponseService::success('Place '.$id,$place->only(['id','name','city','state','slug']),200);
     }
 
     /**
