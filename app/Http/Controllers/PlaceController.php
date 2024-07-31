@@ -62,7 +62,10 @@ class PlaceController extends Controller
     public function update(PlacesRequest $request, string $id): JsonResponse
     {
         try {
-            $place = Place::findOrFail($id);
+            $place = Place::find($id);
+            if(!$place){
+                return ApiResponseService::error('Place not found', [],404);
+            }
             $place->update($request->all());
             $data = $place->only(['id','name', 'slug', 'city', 'state']);
 
