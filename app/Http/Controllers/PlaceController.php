@@ -59,9 +59,17 @@ class PlaceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PlacesRequest $request, string $id): JsonResponse
     {
-        //
+        try {
+            $place = Place::findOrFail($id);
+            $place->update($request->all());
+            $data = $place->only(['id','name', 'slug', 'city', 'state']);
+
+            return ApiResponseService::success($data, 'Place updated successfully.', 200);
+        } catch (Exception $e) {
+            return ApiResponseService::error('Failed to update place. ' . $e->getMessage(), 500);
+        }
     }
 
     /**

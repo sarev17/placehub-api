@@ -28,12 +28,20 @@ class PlacesRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string|max:100',
             'city' => 'required|string|max:50',
             'state' => 'required|string|max:2|min:2',
             'slug' => 'string|unique|max:100'
         ];
+
+        //for update
+        if ($this->isMethod('put') || $this->isMethod('patch')) {
+            $rules['name'] .= '|sometimes';
+            $rules['city'] .= '|sometimes';
+            $rules['state'] .= '|sometimes';
+        }
+        return $rules;
     }
     public function messages(): array
     {
@@ -68,16 +76,23 @@ class PlacesRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if ($this->name && $this->city && $this->state) {
-                $exists = DB::table('places')
-                    ->where('name', $this->name)
-                    ->where('city', $this->city)
-                    ->where('state', $this->state)
-                    ->exists();
+            $query = DB::table('places');
+            $query->where('id', '<>', $this->route('place'));
 
-                if ($exists) {
-                    $validator->errors()->add('data_duplicated', 'The combination of name, city, and state has already been taken.');
-                }
+            if ($this->filled('name')) {
+                $query->where('name', $this->name);
+            }
+
+            if ($this->filled('city')) {
+                $query->where('city', $this->city);
+            }
+
+            if ($this->filled('state')) {
+                $query->where('state', $this->state);
+            }
+
+            if ($query->exists()) {
+                $validator->errors()->add('data_duplicated', 'The combination of name, city, and state has already been taken.');
             }
         });
     }
