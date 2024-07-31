@@ -36,7 +36,7 @@ class PlaceController extends Controller
             $place = Place::create($request->all());
             return ApiResponseService::success('created!', $place->only('id','name','slug','city','state'), 201);
         } catch (Exception $e) {
-            return ApiResponseService::error('Failed to create place', 500);
+            return ApiResponseService::error('Failed to create place', [] ,500);
         }
     }
 
@@ -71,7 +71,7 @@ class PlaceController extends Controller
 
             return ApiResponseService::success($data, 'Place updated successfully.', 200);
         } catch (Exception $e) {
-            return ApiResponseService::error('Failed to update place. ' . $e->getMessage(), 500);
+            return ApiResponseService::error('Failed to update place.' . [], 500);
         }
     }
 

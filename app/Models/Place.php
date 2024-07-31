@@ -33,5 +33,12 @@ class Place extends Model
         });
     }
 
+    ############################
+    ####### MUTATORS ###########
+    ############################
+
+    public function setStateAttribute($value){
+        $this->attributes['state'] = strtoupper($value);
+    }
 
 }
