@@ -1,0 +1,214 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "PlaceHub API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/places": {
+            "post": {
+                "summary": "Create a new place",
+                "operationId": "4504389005624693aa8d58d748b275af",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "city",
+                                    "state"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Restaurant Bom Sabor"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Rio de Janeiro"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "RJ"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Place created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "created!"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Place Name"
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "example": "place-name-1625567890"
+                                                },
+                                                "city": {
+                                                    "type": "string",
+                                                    "example": "City Name"
+                                                },
+                                                "state": {
+                                                    "type": "string",
+                                                    "example": "ST"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to create place",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to create place"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/places/{id}": {
+            "get": {
+                "summary": "Get a specific place",
+                "operationId": "452b22d888c485d6fe740edaa10ff176",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Place found"
+                    },
+                    "404": {
+                        "description": "Place not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a specific place",
+                "operationId": "bd7a584dc5b803c1d46713145c45c57d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "city",
+                                    "state"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Place Name"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "City Name"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "ST"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Place updated successfully"
+                    },
+                    "404": {
+                        "description": "Place not found"
+                    },
+                    "500": {
+                        "description": "Failed to update place"
+                    }
+                }
+            }
+        },
+        "/places/search/{name}": {
+            "get": {
+                "summary": "Search places by name",
+                "operationId": "3a31d411d65fbc43d23663dc1931849f",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Found places"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -9,6 +9,12 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Info(
+ *     title="PlaceHub API",
+ *     version="1.0.0"
+ * )
+ */
 class PlaceController extends Controller
 {
     /**
@@ -28,29 +34,87 @@ class PlaceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/places",
+     *     summary="Create a new place",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "city", "state"},
+     *             @OA\Property(property="name", type="string", example="Restaurant Bom Sabor"),
+     *             @OA\Property(property="city", type="string", example="Rio de Janeiro"),
+     *             @OA\Property(property="state", type="string", example="RJ")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Place created successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="integer", example=201),
+     *             @OA\Property(property="message", type="string", example="created!"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Place Name"),
+     *                 @OA\Property(property="slug", type="string", example="place-name-1625567890"),
+     *                 @OA\Property(property="city", type="string", example="City Name"),
+     *                 @OA\Property(property="state", type="string", example="ST")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Failed to create place",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="integer", example=500),
+     *             @OA\Property(property="message", type="string", example="Failed to create place"),
+     *             @OA\Property(property="errors", type="array", @OA\Items())
+     *         )
+     *     )
+     * )
      */
     public function store(PlacesRequest $request): JsonResponse
     {
         try {
             $place = Place::create($request->all());
-            return ApiResponseService::success('created!', $place->only('id','name','slug','city','state'), 201);
+            return ApiResponseService::success('created!', $place->only('id', 'name', 'slug', 'city', 'state'), 201);
         } catch (Exception $e) {
-            return ApiResponseService::error('Failed to create place', [] ,500);
+            return ApiResponseService::error('Failed to create place', [], 500);
         }
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/places/{id}",
+     *     summary="Get a specific place",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Place found"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Place not found"
+     *     )
+     * )
      */
+
     public function show(string $id)
     {
         $place = Place::find($id);
 
-        if(!$place){
-            return ApiResponseService::error('Place not found',[],404);
+        if (!$place) {
+            return ApiResponseService::error('Place not found', [], 404);
         }
-        return ApiResponseService::success('Place '.$id,$place,200);
+        return ApiResponseService::success('Place ' . $id, $place, 200);
     }
 
     /**
@@ -61,15 +125,47 @@ class PlaceController extends Controller
         //
     }
 
+
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/places/{id}",
+     *     summary="Update a specific place",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "city", "state"},
+     *             @OA\Property(property="name", type="string", example="Place Name"),
+     *             @OA\Property(property="city", type="string", example="City Name"),
+     *             @OA\Property(property="state", type="string", example="ST")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Place updated successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Place not found"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Failed to update place"
+     *     )
+     * )
      */
+
     public function update(PlacesRequest $request, string $id): JsonResponse
     {
         try {
             $place = Place::find($id);
-            if(!$place){
-                return ApiResponseService::error('Place not found', [],404);
+            if (!$place) {
+                return ApiResponseService::error('Place not found', [], 404);
             }
             $place->update($request->all());
 
@@ -88,11 +184,25 @@ class PlaceController extends Controller
     }
 
     /**
-     * filter places
+     * @OA\Get(
+     *     path="/places/search/{name}",
+     *     summary="Search places by name",
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Found places"
+     *     )
+     * )
      */
 
-     public function search($name){
-        $places = Place::where('name','like',"%$name%")->get();
-        return ApiResponseService::success('Found '.count($places). ' registers',$places);
-     }
+    public function search($name)
+    {
+        $places = Place::where('name', 'like', "%$name%")->get();
+        return ApiResponseService::success('Found ' . count($places) . ' registers', $places);
+    }
 }
