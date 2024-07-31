@@ -28,6 +28,9 @@ class Place extends Model
         static::creating(function($place){
             $place->slug = Str::slug($place->name,'-').'-'.Carbon::now()->getTimestamp();
         });
+        static::updating(function($place){
+            $place->slug = Str::slug($place->name,'-').'-'.Carbon::now()->getTimestamp();
+        });
     }
 
 
