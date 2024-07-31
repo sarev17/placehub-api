@@ -13,4 +13,4 @@ Route::get('/user', function (Request $request) {
 #######################################
 
 Route::resource('places', PlaceController::class);
-
+Route::get('places/search/{name}',[PlaceController::class,'search']);

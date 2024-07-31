@@ -50,7 +50,7 @@ class PlaceController extends Controller
         if(!$place){
             return ApiResponseService::error('Place not found',[],404);
         }
-        return ApiResponseService::success('Place '.$id,$place->only(['id','name','city','state','slug']),200);
+        return ApiResponseService::success('Place '.$id,$place,200);
     }
 
     /**
@@ -72,9 +72,8 @@ class PlaceController extends Controller
                 return ApiResponseService::error('Place not found', [],404);
             }
             $place->update($request->all());
-            $data = $place->only(['id','name', 'slug', 'city', 'state']);
 
-            return ApiResponseService::success($data, 'Place updated successfully.', 200);
+            return ApiResponseService::success($place, 'Place updated successfully.', 200);
         } catch (Exception $e) {
             return ApiResponseService::error('Failed to update place.' . [], 500);
         }
@@ -87,4 +86,13 @@ class PlaceController extends Controller
     {
         //
     }
+
+    /**
+     * filter places
+     */
+
+     public function search($name){
+        $places = Place::where('name','like',"%$name%")->get();
+        return ApiResponseService::success('Found '.count($places). ' registers',$places);
+     }
 }
