@@ -52,9 +52,13 @@ PlaceHub API é um projeto simples construído com Laravel para gerenciar lugare
 :⚠ Ao enviar a solicitação, certifique-se de que o cabeçalho Accept: application/json está presente. 
  
  ## Testanto a API
- Para testar a API, você pode utilizar ferramentas como Postman ou cURL, porém a aplicação disponibiliza uma interface no próprio navegador usando swagger.
- Para isso acesse ``http://localhost:8000/api/documentation``
+ 1. **Teste no navegador**
+     Para testar a API, você pode utilizar ferramentas como Postman ou cURL, porém a aplicação disponibiliza uma interface no próprio navegador usando swagger.
+     Para isso acesse ``http://localhost:8000/api/documentation``
 
- <img src="https://github.com/sarev17/placehub-api/blob/main/public/images/Captura%20de%20tela%202024-08-01%20000841.png"></img>
+     <img src="https://github.com/sarev17/placehub-api/blob/main/public/images/Captura%20de%20tela%202024-08-01%20000841.png"></img>
+2. **Teste em uma aplicação externa.**
+   Caso prefira trabalhar com uma aplicação como Postman ou insomnia use a seguinte collection.
+   [collection](https://github.com/sarev17/placehub-api/blob/main/public/files/Insomnia_2024-08-01.json)
 
  
