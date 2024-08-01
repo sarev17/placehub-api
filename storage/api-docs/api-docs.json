@@ -2,12 +2,14 @@
     "openapi": "3.0.0",
     "info": {
         "title": "PlaceHub API",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "description":"Api guide for testing endpoints"
     },
     "paths": {
-        "/places": {
+        "/api/places": {
             "post": {
                 "summary": "Create a new place",
+                "description": "Create a new place with the given information. The API does not allow registering two records with the same name, city and status information",
                 "operationId": "4504389005624693aa8d58d748b275af",
                 "requestBody": {
                     "required": true,
@@ -57,23 +59,55 @@
                                             "properties": {
                                                 "id": {
                                                     "type": "integer",
-                                                    "example": 1
+                                                    "example": 9
                                                 },
                                                 "name": {
                                                     "type": "string",
-                                                    "example": "Place Name"
+                                                    "example": "Restaurant Bom Sabor"
                                                 },
                                                 "slug": {
                                                     "type": "string",
-                                                    "example": "place-name-1625567890"
+                                                    "example": "restaurant-bom-sabor-1722479432"
                                                 },
                                                 "city": {
                                                     "type": "string",
-                                                    "example": "City Name"
+                                                    "example": "Rio de Janeiro3"
                                                 },
                                                 "state": {
                                                     "type": "string",
-                                                    "example": "ST"
+                                                    "example": "RJ"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "The given data was invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 422
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "data_duplicated": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The combination of name, city, and state has already been taken."
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -111,10 +145,11 @@
                 }
             }
         },
-        "/places/{id}": {
+        "/api/places/{id}": {
             "get": {
                 "summary": "Get a specific place",
-                "operationId": "452b22d888c485d6fe740edaa10ff176",
+                "description": "Get a specific place by its id",
+                "operationId": "4ee90b2a793be42613fcf8ae54ff0cd9",
                 "parameters": [
                     {
                         "name": "id",
@@ -127,16 +162,90 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Place found"
+                        "description": "Place found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Place 1"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "teste place"
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "example": "teste-place-1722476049"
+                                                },
+                                                "city": {
+                                                    "type": "string",
+                                                    "example": "City Name"
+                                                },
+                                                "state": {
+                                                    "type": "string",
+                                                    "example": "ST"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-07-31T16:30:13.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-08-01T01:34:09.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Place not found"
+                        "description": "Place not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Place not found"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
             "put": {
                 "summary": "Update a specific place",
-                "operationId": "bd7a584dc5b803c1d46713145c45c57d",
+                "description": "Update a specific place. The API does not allow registering two records with the same name, city and status information",
+                "operationId": "3eba858ed63a31cf3380c85c3bcd4ea2",
                 "parameters": [
                     {
                         "name": "id",
@@ -178,21 +287,124 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Place updated successfully"
+                        "description": "Place updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Place updated successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Place Name"
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "example": "place-name-1722479780"
+                                                },
+                                                "city": {
+                                                    "type": "string",
+                                                    "example": "City Name"
+                                                },
+                                                "state": {
+                                                    "type": "string",
+                                                    "example": "ST"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-07-31T16:30:13.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-08-01T02:36:20.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "404": {
-                        "description": "Place not found"
+                    "422": {
+                        "description": "The given data was invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 422
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "data_duplicated": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The combination of name, city, and state has already been taken."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Failed to update place"
+                        "description": "Failed to update place",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 500
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to update place"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
-        "/places/search/{name}": {
+        "/api/places/search/{name}": {
             "get": {
                 "summary": "Search places by name",
-                "operationId": "3a31d411d65fbc43d23663dc1931849f",
+                "description": "Search places by name",
+                "operationId": "9d3e44b01037c39be77419f16559e9a9",
                 "parameters": [
                     {
                         "name": "name",
@@ -205,7 +417,62 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Found places"
+                        "description": "Found places",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Found 4 registers"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "teste1"
+                                                    },
+                                                    "slug": {
+                                                        "type": "string",
+                                                        "example": "teste1-1722456013"
+                                                    },
+                                                    "city": {
+                                                        "type": "string",
+                                                        "example": "werwr"
+                                                    },
+                                                    "state": {
+                                                        "type": "string",
+                                                        "example": "CE"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-31T20:00:13.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-07-31T20:00:13.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
