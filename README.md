@@ -42,12 +42,8 @@ PlaceHub API é um projeto simples construído com Laravel para gerenciar lugare
     ```sh
     php artisan migrate
 
-7. **Popule o banco de dados com dados de teste:**
-    Utilize o comando:
-    ```sh
-    php artisan db:seed
 
-8. **Executando a Aplicação**
+7. **Executando a Aplicação**
     Para iniciar o servidor de desenvolvimento do Laravel, utilize o comando:
     ```sh
     php artisan serve
@@ -58,4 +54,7 @@ PlaceHub API é um projeto simples construído com Laravel para gerenciar lugare
  ## Testanto a API
  Para testar a API, você pode utilizar ferramentas como Postman ou cURL, porém a aplicação disponibiliza uma interface no próprio navegador usando swagger.
  Para isso acesse ``http://localhost:8000/api/documentation``
- <img src="/images/Captura de tela 2024-08-01 000841.png"></img>
+
+ <img src="https://github.com/sarev17/placehub-api/blob/main/public/images/Captura%20de%20tela%202024-08-01%20000841.png"></img>
+
+ 
